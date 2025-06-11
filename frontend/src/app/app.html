@@ -1,0 +1,10 @@
+<nav class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-4 shadow-md flex justify-between items-center">
+  <h1 class="text-2xl font-bold">📈 Börsenticker</h1>
+  <button *ngIf="auth.isLoggedIn()" (click)="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg shadow-sm transition">
+    Logout
+  </button>
+</nav>
+
+<main class="bg-gray-100 min-h-screen p-6">
+  <router-outlet></router-outlet>
+</main>
