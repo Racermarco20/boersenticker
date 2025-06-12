@@ -1,5 +1,6 @@
 <h2 class="text-2xl font-semibold mb-4 text-center">📊 Aktuelle Kurse</h2>
-
+<app-alert></app-alert>
+<br>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
   <div *ngFor="let stock of stocks()" class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
     <div class="text-lg font-semibold text-gray-800">{{ stock.name }}</div>

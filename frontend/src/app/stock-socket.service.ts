@@ -1,23 +1,29 @@
-import { Injectable } from '@angular/core';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
-export interface StockUpdate {
-  name: string;
-  price: number;
-}
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class StockSocketService {
-  private socket$: WebSocketSubject<StockUpdate>;
+  private socket = new WebSocket('ws://localhost:3000');
+
+  private stockSubject = new Subject<{ name: string; price: number }>();
+  private alertSubject = new Subject<any>();
 
   constructor() {
-    this.socket$ = webSocket('ws://localhost:3000'); // oder Server-IP
+    this.socket.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.type === 'stock') {
+        this.stockSubject.next(msg.data);
+      } else if (msg.type === 'alert') {
+        this.alertSubject.next(msg.data);
+      }
+    };
   }
 
-  getStockUpdates(): Observable<StockUpdate> {
-    return this.socket$.asObservable();
+  getStockUpdates() {
+    return this.stockSubject.asObservable();
+  }
+
+  onAlarm() {
+    return this.alertSubject.asObservable();
   }
 }
