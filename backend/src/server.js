@@ -28,6 +28,10 @@ app.use('/stocks', stocksRouter);
 app.use('/api/alerts', alertRouter);
 app.use(logRequest);
 
+app.get('/', () => {
+    return "Root"
+})
+
 setupWebSocket(server);
 
 setupSwagger(app);

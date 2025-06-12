@@ -2,11 +2,12 @@ import {Component, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StockSocketService} from './stock-socket.service';
 import {AlertComponent} from './alert.component';
+import {TickerChartComponent} from './ticker-chart.component';
 
 @Component({
   selector: 'app-ticker',
   standalone: true,
-  imports: [CommonModule, AlertComponent],
+  imports: [CommonModule, TickerChartComponent, AlertComponent],
   templateUrl: './ticker.component.html',
   styleUrls: ['./ticker.component.css']
 })
@@ -18,7 +19,7 @@ export class TickerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.socket.getStockUpdates().subscribe(update => {
+    this.socket.getStockUpdates().subscribe((update: { name: any; price: any; }) => {
       const all = this.stocks();
       const index = all.findIndex(s => s.name === update.name);
       if (index !== -1) {
@@ -29,7 +30,7 @@ export class TickerComponent implements OnInit {
       }
     });
 
-    this.socket.onAlarm().subscribe(alarm => {
+    this.socket.onAlarm().subscribe((alarm: { symbol: any; currentPrice: any; direction: any; threshold: any; }) => {
       const msg = `🚨 ${alarm.symbol} hat ${alarm.currentPrice} € erreicht (${alarm.direction} ${alarm.threshold} €)`;
       this.latestAlert.set(msg);
       alert(msg);

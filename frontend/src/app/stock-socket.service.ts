@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 export class StockSocketService {
   private socket = new WebSocket('ws://localhost:3000');
 
-  private stockSubject = new Subject<{ name: string; price: number }>();
+  private stockSubject = new Subject<{ name: string; symbol: string; price: number }>();
   private alertSubject = new Subject<any>();
 
   constructor() {

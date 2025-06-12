@@ -5,7 +5,7 @@ services:
     image: mysql:8
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "!7bRl1a2tuNLdiPL"
+      MYSQL_ROOT_PASSWORD: 201402
       MYSQL_DATABASE: boersenticker
     ports:
       - "3307:3306"
@@ -19,7 +19,7 @@ services:
     environment:
       DB_HOST: mysql
       DB_USER: root
-      DB_PASS: "!7bRl1a2tuNLdiPL"
+      DB_PASS: 201402
       DB_NAME: boersenticker
     ports:
       - "3000:3000"
