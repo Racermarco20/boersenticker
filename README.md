@@ -82,12 +82,6 @@ docker compose up --build -d
 Die Option -d erlaubt die Anwendung im Hintergrund zu laufen. --build baut zuerst das Image neu und startet dann den
 Container.
 
-### 🧪 Standard-Datenbankzugang
-
-- Benutzer: `<user aus .env>`
-- Passwort: `<password aus .env>`
-- Datenbank: `boersenticker`
-
 ---
 
 ## 🔐 Authentifizierung
