@@ -5,8 +5,8 @@ services:
     image: mysql:8
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 201402
-      MYSQL_DATABASE: boersenticker
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
     ports:
       - "3307:3306"
     volumes:
@@ -18,9 +18,9 @@ services:
     restart: always
     environment:
       DB_HOST: mysql
-      DB_USER: root
-      DB_PASS: 201402
-      DB_NAME: boersenticker
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     ports:
       - "3000:3000"
     depends_on:
@@ -35,3 +35,4 @@ services:
 
 volumes:
   mysql_data:
+
