@@ -1,11 +1,19 @@
 import {WebSocketServer} from 'ws';
 import {db} from './db.js';
+import path from "path";
+import fs from "fs";
 
 const lastPrices = new Map();
-const clients = new Set();
+const clients = new Set()
+
+const logFilePath = path.join(process.cwd(), '/logs/stock-price-log.txt');
 
 function getNextPrice(current) {
-    const changePercent = (Math.random() * 0.1) - 0.05;
+
+    const isBigChange = Math.random() < 0.05;
+    const maxChange = isBigChange ? 0.10 : 0.02;
+    const changePercent = (Math.random() * 2 - 1) * maxChange;
+
     const newPrice = current * (1 + changePercent);
     return parseFloat(newPrice.toFixed(2));
 }
@@ -29,6 +37,7 @@ export function setupWebSocket(server) {
                     const next = getNextPrice(last);
                     db.query('UPDATE stocks SET market_value = ? WHERE name = ?', [next, name]);
                     lastPrices.set(name, next);
+                    logPriceChange(name, last, next, (next - last) / last);
                     return {name, price: next};
                 });
 
@@ -65,4 +74,13 @@ export function setupWebSocket(server) {
     };
 
     broadcastAlarm = wss.broadcastAlarm;
+}
+
+function logPriceChange(stockName, oldPrice, newPrice, changePercent) {
+    const timestamp = new Date().toISOString();
+    const message = `[${timestamp}] ${stockName}: ${oldPrice} € → ${newPrice} € (${(changePercent * 100).toFixed(2)}%)\n`;
+    fs.appendFile(logFilePath, message, (err) => {
+        if (err) console.error('Fehler beim Schreiben ins Logfile:', err);
+    });
+    console.log(message);
 }
