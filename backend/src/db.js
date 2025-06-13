@@ -1,7 +1,8 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import path from "path";
 
-dotenv.config();
+dotenv.config({path: path.resolve('/app/.env')});
 
 export const db = await mysql.createPool({
     host: process.env.DB_HOST,
