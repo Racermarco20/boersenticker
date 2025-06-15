@@ -15,5 +15,5 @@
 /frontend/.angular
 /frontend/.vscode
 /backend/.idea
-/backend/logs/*
+/backend/logs/activity.log
 
